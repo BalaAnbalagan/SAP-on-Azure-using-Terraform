@@ -1,7 +1,7 @@
 # Group for all this resources
 rg = "NETWORK"
 
-sid = "SAPSID"
+sid = "S4P"
 
 location = ["WESTUS2", "EASTUS2"]
 
