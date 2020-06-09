@@ -5,7 +5,7 @@
 #resource group
 
 module "resource_group" {
-  source       = "../resources/resource_group"
+  source       = "../../resources/resource_group"
   service_name = "network-isolated"
   region       = var.region
   environment  = var.environment
@@ -15,7 +15,7 @@ module "resource_group" {
 #vnet
 
 module "virtual_network" {
-  source         = "../resources/network/virtual_network"
+  source         = "../../resources/network/virtual_network"
   resource_group = module.resource_group.name
   region         = module.resource_group.location
   environment    = var.environment
