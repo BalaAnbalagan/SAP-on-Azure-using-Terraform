@@ -14,7 +14,6 @@ Steps to setup Terraform for Azure
 Architecture:
 -------------
 The templates were created with reference to Azure reference architecture published,  https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/sap/sap-s4hana
-Hub and Sproke Network architecture is used
 
 Scenario Definition:
 --------------------
@@ -22,26 +21,44 @@ Scenario Definition:
 2. SAP HANA System Replication with Load balancer as HA solution
 3. No HA Solution for SCS & ERS Automatic Failovers
 
-Features:
----------
-1. Vnet Peering between HUB & SPOKE
-2. NSG per Subnet
-
-
 
 Upcoming
 ---------
-1. Load balancer will be added.
-2. Parameterize OS flavors
-3. Parameterize No. Disk and SKU's
-4. HA Solution implementation
+1. Parameterize OS flavors
+2. Parameterize No. Disk and SKU's
+3. HA Solution implementation
 
 
 Steps
 -----
 login to azure before running terraform (az login )
-to create resoure Group
-1. change directory to resourcegroup
-2. initialize terrafrom (terrafrom init)
-3. run plan (terrafrom plan)
-4. deploy (terraform apply) - Confirm yes when asked
+1. initialize terrafrom (terrafrom init)
+2. run plan (terrafrom plan)
+3. deploy (terraform apply) - Confirm yes when asked
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12 |
+| azurerm | >= 2.7.0 |
+
+## Providers
+
+No provider.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| address\_prefix\_app | The address prefix to use for the app subnet. | `list(string)` | n/a | yes |
+| address\_prefix\_data | The address prefix to use for the data subnet. | `list(string)` | n/a | yes |
+| address\_prefix\_glusterfs | The address prefix to use for the glusterfs subnet. | `list(string)` | n/a | yes |
+| address\_space | This is a list of the ip address ranges for the vnet | `list` | n/a | yes |
+| environment | Development environment for resource; prod, non-prod, shared-services | `string` | n/a | yes |
+| region | Geographic region resource will be deployed into | `string` | n/a | yes |
+| tags | A map of tags to add to all resources | `map` | `{}` | no |
+
+## Outputs
+
+No output.
