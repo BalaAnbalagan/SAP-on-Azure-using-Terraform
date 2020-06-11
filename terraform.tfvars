@@ -3,7 +3,7 @@
 ###
 
 #common
-environment = "test"
+environment = "demo"
 region      = "eastus"
 
 #virtual_network

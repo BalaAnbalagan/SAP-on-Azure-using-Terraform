@@ -76,7 +76,7 @@ module "virtual_machine_glusterfs" {
   admin_username                   = "kuhlmanlabs"
   admin_password                   = "P@ssWord098"
   disable_password_authentication  = false
-  os_disk_storage_account_type     = "Premium_LRS"
+  os_disk_storage_account_type     = "Standard_LRS"
   os_disk_caching                  = "None"
   size                             = var.vm_size_glusterfs
   network_interface_ids            = module.network_interface_glusterfs.id
@@ -86,4 +86,27 @@ module "virtual_machine_glusterfs" {
   source_image_reference_sku       = "7.4"
   source_image_reference_version   = "latest"
   tags                             = var.tags
+}
+
+module "managed_disk" {
+  source               = "../../resources/compute/managed_disk"
+  resource_group       = module.resource_group.name
+  region               = module.resource_group.location
+  environment          = var.environment
+  name_prefix          = "datadisk-lvm-glusterfs"
+  disk_count           = 2
+  create_option        = "Empty"
+  storage_account_type = "Standard_LRS"
+  disk_size_gb         = 60
+  enable_zones         = true
+  zones                = [1, 2]
+  tags                 = var.tags
+}
+
+module "virtual_machine_data_disk_attachment" {
+  source             = "../../resources/compute/virtual_machine_data_disk_attachment"
+  managed_disk_id    = module.managed_disk.id
+  virtual_machine_id = module.virtual_machine_glusterfs.id
+  lun                = "0"
+  caching            = "None"
 }

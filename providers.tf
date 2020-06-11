@@ -1,4 +1,3 @@
-  
 ###
 # solution providers
 ###

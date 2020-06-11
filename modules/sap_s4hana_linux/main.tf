@@ -253,3 +253,26 @@ module "virtual_machine_database" {
   source_image_reference_version   = "latest"
   tags                             = var.tags
 }
+
+module "managed_disk_database" {
+  source               = "../../resources/compute/managed_disk"
+  resource_group       = module.resource_group.name
+  region               = module.resource_group.location
+  environment          = var.environment
+  name_prefix          = "datadisk-lvm-sap-database"
+  disk_count           = 2
+  create_option        = "Empty"
+  storage_account_type = "Premium_LRS"
+  disk_size_gb         = 60
+  enable_zones         = true
+  zones                = [1, 2]
+  tags                 = var.tags
+}
+
+module "virtual_machine_data_disk_attachment_database" {
+  source             = "../../resources/compute/virtual_machine_data_disk_attachment"
+  managed_disk_id    = module.managed_disk_database.id
+  virtual_machine_id = module.virtual_machine_database.id
+  lun                = "0"
+  caching            = "None"
+}
